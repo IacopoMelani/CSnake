@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include <time.h>
+#include <stdio.h>
 
 #include "console.h"
 #include "screen.h"
@@ -26,7 +27,10 @@ int main()
 		screen_buffer_reset(screen);
 
 		last_direction = snake_move(screen, snake, last_direction);
-		snake_draw(screen, snake, last_direction);
+		if (snake_draw(screen, snake, last_direction))
+		{
+			break;
+		}
 
 		COORD c = { 0, 0 };
 		WriteConsoleOutputCharacter(hConsole, screen->buf, SCREEN_WIDTH * SCREEN_HEIGHT, c, &dwBytesWritten);
@@ -42,6 +46,8 @@ int main()
 
 		snake = snake_add_tail(snake);
 	}
+
+	printf("\nHai perso!");
 
 	snake_dealloc_all(snake);
 

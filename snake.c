@@ -3,6 +3,7 @@
 #include <string.h>
 
 static void snake_move_childs(SNAKE node, SNAKE parent);
+static BOOL snake_same_coord(SNAKE s1, SNAKE s2);
 
 SNAKE snake_add_tail(SNAKE head)
 {
@@ -47,9 +48,10 @@ void snake_dealloc_all(SNAKE snake)
 	}
 }
 
-void snake_draw(SCREEN_BUFFER screen, SNAKE snake, int direction)
+BOOL snake_draw(SCREEN_BUFFER screen, SNAKE snake, int direction)
 {
 	SNAKE pivot;
+	BOOL collision = FALSE;
 
 	pivot = snake;
 
@@ -76,10 +78,20 @@ void snake_draw(SCREEN_BUFFER screen, SNAKE snake, int direction)
 		}
 		else
 		{
-			screen_buffer_write(screen, 'O', pivot->coord->X, pivot->coord->Y);
+			if (snake_same_coord(snake, pivot) && snake->next != pivot) 
+			{
+				screen_buffer_write(screen, 'X', pivot->coord->X, pivot->coord->Y);
+				collision = TRUE;
+			}
+			else
+			{
+				screen_buffer_write(screen, 'O', pivot->coord->X, pivot->coord->Y);
+			}
 		}
 		pivot = pivot->next;
 	}
+
+	return collision;
 }
 
 SNAKE snake_init(void)
@@ -99,7 +111,7 @@ SNAKE snake_init(void)
 	memset(snake, 0, sizeof(Snake));
 
 	snake->coord = coord;
-	snake->is_head = FALSE;
+	snake->is_head = TRUE;
 	snake->next = NULL;
 
 	return snake;
@@ -107,8 +119,6 @@ SNAKE snake_init(void)
 
 int snake_move(SCREEN_BUFFER screen, SNAKE snake, int last_direction)
 {
-	// TODO: move all childs
-
 	snake_move_childs(snake->next, snake);
 
 	if (GetAsyncKeyState(VK_UP) && last_direction != VK_DOWN)
@@ -171,9 +181,14 @@ static void snake_move_childs(SNAKE node, SNAKE parent)
 		snake_move_childs(node->next, node);
 	}
 
-	if (parent->coord->X != node->coord->X || parent->coord->Y != node->coord->Y)
+	if (!snake_same_coord(parent, node))
 	{
 		node->coord->X = parent->coord->X;
 		node->coord->Y = parent->coord->Y;
 	}
+}
+
+static BOOL snake_same_coord(SNAKE s1, SNAKE s2)
+{
+	return s1->coord->X == s2->coord->X && s1->coord->Y == s2->coord->Y;
 }

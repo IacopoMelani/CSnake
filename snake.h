@@ -5,6 +5,7 @@
 #include "screen.h"
 
 #define DIRECTION
+#define COLLISION
 
 typedef struct Snake {
 	PCOORD coord;
@@ -20,7 +21,7 @@ void snake_dealloc(SNAKE snake);
 
 void snake_dealloc_all(SNAKE snake);
 
-void snake_draw(SCREEN_BUFFER screen, SNAKE snake, int direction);
+BOOL COLLISION snake_draw(SCREEN_BUFFER screen, SNAKE snake, int direction);
 
 SNAKE snake_init(void);
 
