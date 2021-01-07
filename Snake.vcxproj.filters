@@ -18,5 +18,25 @@
     <ClCompile Include="main.c">
       <Filter>File di origine</Filter>
     </ClCompile>
+    <ClCompile Include="console.c">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="screen.c">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="snake.c">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="console.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="screen.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="snake.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
